@@ -1,0 +1,15 @@
+{
+  "name": "NodeJS",
+  "version": "1.0.0",
+  "description": "A simple Node.js app to serve an HTML file",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
+
