@@ -13,7 +13,7 @@ RUN go build -o main .
 # Copy the HTML file into the container
 COPY index.html .
 
-# Expose port 8080 to the outside world
+# Expose port 2000 to the outside world
 EXPOSE 2000
 
 # Command to run the executable
