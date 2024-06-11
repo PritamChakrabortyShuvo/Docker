@@ -11,7 +11,10 @@ Welcome to **Docker Fundamentals and Advanced Techniques.** This guide is design
 2. [Docker Installation](#docker-installation)
     1. [Docker for Ubuntu](#docker-for-ubuntu)
     2. [Docker for Windows](#docker-for-windows)
-3. [Basic Docker](#basic-cdecker)
+3. [Docker File](#docker-file)
+4. [Docker Image](#docker-image)
+5. [Docker Image Commands](#docker-image-commands)
+6. [Docker Container](#docker-container)
     1. [Docker Command Reference](#docker-command-reference)
     2. [Lifecycle of Docker Conatainer](#lifecycle-of-docker-container)
     3. [Container Naming & Identification](#container-naming-&-identification)
@@ -19,9 +22,7 @@ Welcome to **Docker Fundamentals and Advanced Techniques.** This guide is design
     5. [Why a Docker Container exits?](#why-a-docker-container-exits)
     6. [How to Keep the Container Running](#how-to-keep-the-container-running)
     7. [Container Interaction](#container-interaction)
-4. [Docker File](#docker-file)
-5. [Docker Image](#docker-image)
-6. [Advanced Docker](#advanced-commands)
+7. [Advanced Docker](#advanced-commands)
     1. [Docker Networking](#docker-networking)
     2. [Docker Volumes](#docker-volumes)
     3. [Docker Compose](#docker-compose)
@@ -135,8 +136,125 @@ Simplified installation steps for Docker on Ubuntu and Windows -
   ```bash
     $ docker --version
   ```
+# Docker File
+### What is Docker File?
 
-# Basic Docker
+This is a text document that acts as a blueprint or recipe for creating a Docker image. It contains a series of instructions that tell Docker what to include in the image, such as the operating system, libraries, and your application code. 
+
+```bash
+      # Base image
+      FROM ubuntu:latest
+
+      # Metadata
+      LABEL maintainer="yourname@example.com"
+
+      # Environment variable
+      ENV APP_NAME="ExampleApp"
+
+      # Working directory
+      WORKDIR /app
+
+      # Copy file
+      COPY source_file.txt /app/
+
+      # Install dependencies
+      RUN apt-get update && apt-get install -y curl vim
+
+      # Expose port
+      EXPOSE 8080
+
+      # Health check
+      HEALTHCHECK CMD curl --fail http://localhost:8080 || exit 1
+
+      # Default command
+      CMD ["echo", "Default command"]
+
+      # Entrypoint
+      ENTRYPOINT ["echo", "Starting container..."]
+```
+Frequently used Dockerfile Instructions:
+
+**FROM** : Sets base/parent Image.
+
+**LABEL** : Adds metadata to the image.
+
+**RUN** : Creates new layer.
+
+**EXPOSE** : Intend port to publish.
+
+**WORKDIR** : Sets current working directory.
+
+**COPY** : Copy file from one location to container. If spaces include quotes.
+
+**ENV** : Set environment variables. Can be overridden by --env flag.
+
+**HEALTHCHECK** : Checks the health of a container by running a command inside the container.Can be only one Healthcheck instruction in a Dockerfile.
+
+**CMD** : Setting default command for container. It can be overridden.
+
+**ENTRYPOINT** : Specify executable inside the container. It does not get overridden. 
+
+However, it can be overridden by --entrypoint flag.
+
+# Docker Image
+
+### What is Docker Image?
+
+This is the end product created from the Dockerfile. It's a read-only template that encapsulates everything your application needs to run, including the operating system, libraries, and your application code. Images are portable and can be shared and stored in repositories like Docker Hub.
+
+![Project Logo](Images/Dockerfile%20to%20DockerContainer.png)
+
+# Docker Image Commands
+
+**Build and run docker image**
+
+```bash
+  $ docker -t build <image_name> path_to_dockerfile
+```
+
+```bash
+  $ docker build -t <image_name> .
+```
+The **.** at the end specifies the context (current directory) where the Dockerfile is located.
+
+### What is Docker tag?
+A Docker tag is a label that we apply to a Docker image to identify its version or variant. Tags make it easier to manage and differentiate between different versions of an image.
+
+Tags help us to keep track of different versions of our images, enabling us to specify which version we want to run or deploy.
+
+**List of all image**
+
+```bash
+  $ docker image ls
+```
+**Pull an image from a registry**
+
+```bash
+  $ docker pull <image_name:tag>
+```
+**Show detailed information about an image**
+
+```bash
+  $ docker image inspect nginx
+```
+**Remove a local image**
+
+```bash
+  $ docker rmi <image_name>:tag
+```
+**Tag an image**
+
+```bash
+  $ docker tag source_image:tag new:image:tag
+```
+**Push an image to Docker Hub**
+
+```bash
+  $ docker push image_name:tag
+```
+
+
+# Docker Container
 
 These section should help you manage Docker on your system efficiently.
 
@@ -300,7 +418,7 @@ This is used to start a new container in detached mode, which means the containe
 ```
 ### Container Logs and Stats
 
-**Display the logs of a containe**
+**Display the logs of a container**
 
 ```bash
   $ docker logs <containerID>
@@ -363,88 +481,7 @@ Starts a new container with an interactive shell
 ```bash
   $ docker container prune
 ```
-# Docker File
-### What is Docker File?
 
-This is a text document that acts as a blueprint or recipe for creating a Docker image. It contains a series of instructions that tell Docker what to include in the image, such as the operating system, libraries, and your application code. 
-
-```bash
-      # Base image
-      FROM ubuntu:latest
-
-      # Metadata
-      LABEL maintainer="yourname@example.com"
-
-      # Environment variable
-      ENV APP_NAME="ExampleApp"
-
-      # Working directory
-      WORKDIR /app
-
-      # Copy file
-      COPY source_file.txt /app/
-
-      # Install dependencies
-      RUN apt-get update && apt-get install -y curl vim
-
-      # Expose port
-      EXPOSE 8080
-
-      # Health check
-      HEALTHCHECK CMD curl --fail http://localhost:8080 || exit 1
-
-      # Default command
-      CMD ["echo", "Default command"]
-
-      # Entrypoint
-      ENTRYPOINT ["echo", "Starting container..."]
-```
-Frequently used Dockerfile Instructions:
-
-**FROM** : Sets base/parent Image.
-
-**LABEL** : Adds metadata to the image.
-
-**RUN** : Creates new layer.
-
-**EXPOSE** : Intend port to publish.
-
-**WORKDIR** : Sets current working directory.
-
-**COPY** : Copy file from one location to container. If spaces include quotes.
-
-**ENV** : Set environment variables. Can be overridden by --env flag.
-
-**HEALTHCHECK** : Checks the health of a container by running a command inside the container.Can be only one Healthcheck instruction in a Dockerfile.
-
-**CMD** : Setting default command for container. It can be overridden.
-
-**ENTRYPOINT** : Specify executable inside the container. It does not get overridden. 
-
-However, it can be overridden by --entrypoint flag.
-
-
-
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
 ```bash
   $ 
 ```
