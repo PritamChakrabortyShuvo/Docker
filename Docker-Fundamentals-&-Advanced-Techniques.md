@@ -19,7 +19,9 @@ Welcome to **Docker Fundamentals and Advanced Techniques.** This guide is design
     5. [Why a Docker Container exits?](#why-a-docker-container-exits)
     6. [How to Keep the Container Running](#how-to-keep-the-container-running)
     7. [Container Interaction](#container-interaction)
-4. [Advanced Docker](#advanced-commands)
+4. [Docker File](#docker-file)
+5. [Docker Image](#docker-image)
+6. [Advanced Docker](#advanced-commands)
     1. [Docker Networking](#docker-networking)
     2. [Docker Volumes](#docker-volumes)
     3. [Docker Compose](#docker-compose)
@@ -361,6 +363,68 @@ Starts a new container with an interactive shell
 ```bash
   $ docker container prune
 ```
+# Docker File
+### What is Docker File?
+
+This is a text document that acts as a blueprint or recipe for creating a Docker image. It contains a series of instructions that tell Docker what to include in the image, such as the operating system, libraries, and your application code. 
+
+```bash
+      # Base image
+      FROM ubuntu:latest
+
+      # Metadata
+      LABEL maintainer="yourname@example.com"
+
+      # Environment variable
+      ENV APP_NAME="ExampleApp"
+
+      # Working directory
+      WORKDIR /app
+
+      # Copy file
+      COPY source_file.txt /app/
+
+      # Install dependencies
+      RUN apt-get update && apt-get install -y curl vim
+
+      # Expose port
+      EXPOSE 8080
+
+      # Health check
+      HEALTHCHECK CMD curl --fail http://localhost:8080 || exit 1
+
+      # Default command
+      CMD ["echo", "Default command"]
+
+      # Entrypoint
+      ENTRYPOINT ["echo", "Starting container..."]
+```
+Frequently used Dockerfile Instructions:
+
+**FROM** : Sets base/parent Image.
+
+**LABEL** : Adds metadata to the image.
+
+**RUN** : Creates new layer.
+
+**EXPOSE** : Intend port to publish.
+
+**WORKDIR** : Sets current working directory.
+
+**COPY** : Copy file from one location to container. If spaces include quotes.
+
+**ENV** : Set environment variables. Can be overridden by --env flag.
+
+**HEALTHCHECK** : Checks the health of a container by running a command inside the container.Can be only one Healthcheck instruction in a Dockerfile.
+
+**CMD** : Setting default command for container. It can be overridden.
+
+**ENTRYPOINT** : Specify executable inside the container. It does not get overridden. 
+
+However, it can be overridden by --entrypoint flag.
+
+
+
 ****
 
 ```bash
