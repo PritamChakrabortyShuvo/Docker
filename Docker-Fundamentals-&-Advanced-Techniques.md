@@ -22,13 +22,10 @@ Welcome to **Docker Fundamentals and Advanced Techniques.** This guide is design
     5. [Why a Docker Container exits?](#why-a-docker-container-exits)
     6. [How to Keep the Container Running](#how-to-keep-the-container-running)
     7. [Container Interaction](#container-interaction)
-7. [Advanced Docker](#advanced-commands)
-    1. [Docker Networking](#docker-networking)
-    2. [Docker Volumes](#docker-volumes)
-    3. [Docker Compose](#docker-compose)
-    4. [Docker Swarm](#docker-swarm)
-    5. [Docker Kubernetes](#docker-kubernetes)
-10. [Best Practices](#best-practices)
+7. [CMD vs Entrypoint](#cmd-vs-entrypoint)
+8. [Docker Ignore](#docker-ignore)
+9. [Docker Volume](#docker-volume)
+10. [Docker Namespace](#docker-namespace)
 11. [Troubleshooting](#troubleshooting)
 12. [Conclusion](#conclusion)
 
@@ -86,35 +83,35 @@ Simplified installation steps for Docker on Ubuntu and Windows -
 **1. Update package repository**
 
 ```bash
-  $ sudo apt update
+  sudo apt update
 ```
 **2. Install dependencies**
 
 ```bash
-  $  sudo apt install apt-transport-https ca-certificates curl software-properties-common
+  sudo apt install apt-transport-https ca-certificates curl software-properties-common
 ```
 **3. Add docker GPG key**
 
 ```bash
-  $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 ```
 **4. Add docker repository**
 
 ```bash
-  $ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 ```
 **5. Install docker engine**
 
 ```bash
-  $ sudo apt update
+  sudo apt update
 ```
 ```bash
-  $ sudo apt install docker-ce
+  sudo apt install docker-ce
 ```
 **6. Verify Docker Installation**
 
 ```bash
-  $ sudo docker --version
+  sudo docker --version
 ```
 ### Docker for Windows
 
@@ -134,7 +131,7 @@ Simplified installation steps for Docker on Ubuntu and Windows -
 
   Open a command prompt and run
   ```bash
-    $ docker --version
+    docker --version
   ```
 # Docker File
 ### What is Docker File?
@@ -209,11 +206,11 @@ This is the end product created from the Dockerfile. It's a read-only template t
 **Build and run docker image**
 
 ```bash
-  $ docker -t build <image_name> path_to_dockerfile
+  docker -t build <image_name> path_to_dockerfile
 ```
 
 ```bash
-  $ docker build -t <image_name> .
+  docker build -t <image_name> .
 ```
 The **.** at the end specifies the context (current directory) where the Dockerfile is located.
 
@@ -225,32 +222,32 @@ Tags help us to keep track of different versions of our images, enabling us to s
 **List of all image**
 
 ```bash
-  $ docker image ls
+  docker image ls
 ```
 **Pull an image from a registry**
 
 ```bash
-  $ docker pull <image_name:tag>
+  docker pull <image_name:tag>
 ```
 **Show detailed information about an image**
 
 ```bash
-  $ docker image inspect nginx
+  docker image inspect nginx
 ```
 **Remove a local image**
 
 ```bash
-  $ docker rmi <image_name>:tag
+  docker rmi <image_name>:tag
 ```
 **Tag an image**
 
 ```bash
-  $ docker tag source_image:tag new:image:tag
+  docker tag source_image:tag new:image:tag
 ```
 **Push an image to Docker Hub**
 
 ```bash
-  $ docker push image_name:tag
+  docker push image_name:tag
 ```
 
 
@@ -263,37 +260,37 @@ These section should help you manage Docker on your system efficiently.
 **Check Installed Docker Version**
 
 ```bash
-  $ sudo docker version
+  sudo docker version
 ```
 **Display System-wide Information**
 
 ```bash
-  $ sudo docker info
+  sudo docker info
 ```
 **Check Docker Service Status**
 
 ```bash
-  $ sudo systemctl status docker
+  sudo systemctl status docker
 ```
 **List Currently Running Docker Containers**
 
 ```bash
-  $ sudo docker ps
+  sudo docker ps
 ```
 **List All Docker Containers (including stopped ones)**
 
 ```bash
-  $ sudo docker ps -a
+  sudo docker ps -a
 ```
 **List Available Docker Images**
 
 ```bash
-  $ sudo docker images
+  sudo docker images
 ```
 **Correct Command to List Running Containers**
 
 ```bash
-  $ docker container list
+  docker container list
 ```
 
 ### Lifecycle of a Docker container
@@ -305,133 +302,133 @@ The lifecycle of a Docker container involves several stages, including creation,
 **Creates a new container but does not start it**
 
 ```bash
-  $ docker create --name my-container nginx
+  docker create --name my-container nginx
 ```
 Creates a new container named "my-container" using the Nginx image but does not start it.
 
 **Docker start**
 
 ```bash
-  $ docker start my-container
+  docker start my-container
 ```
 Starts the container named "my-container" that was previously created but stopped.
 
 **Docker run**
 
 ```bash
-  $ docker run --name my-container nginx
+  docker run --name my-container nginx
 ```
 This command combines the process of creating and starting a container named "my-container" using the Nginx image in a single step.
 
 **Docker pause/unpause**
 
 ```bash
-  $ docker pause my-container
+  docker pause my-container
 ```
 ```bash
-  $ docker ps --filter "name=my-container"
+  docker ps --filter "name=my-container"
 ```
 
 ```bash
-  $ docker unpause my-container
+  docker unpause my-container
 ```
 **Docker stop**
 
 ```bash
-  $ docker stop my-container
+  docker stop my-container
 ```
 
 **Docker remove**
 
 ```bash
-  $ docker rm my-container
+  docker rm my-container
 ```
 
 **Run a container from an image**
 
 ```bash
-  $ docker run nginx
+  docker run nginx
 ```
 
 **Run a command inside a running container**
 
 ```bash
-  $ docker exec my-nginx ls /usr/share/nginx/html
+  docker exec my-nginx ls /usr/share/nginx/html
 ```
 **Display detailed information about a container**
 
 ```bash
-  $ docker inspect my-container
+  docker inspect my-container
 ```
 **Stop a running container via name**
 
 ```bash
-  $ docker stop my-container
+  docker stop my-container
 ```
 **Stop all running container**
 
 ```bash
-  $ docker container stop $(docker container ps -q)
+  docker container stop $(docker container ps -q)
 ```
 **Start a stopped container vi ID.**
 
 ```bash
-  $ docker start 1662fbp18011593
+  docker start 1662fbp18011593
 ```
 **Restart a container**
 
 ```bash
-  $ docker restart 1662fbp18011593
+  docker restart 1662fbp18011593
 ```
 **Restart after 10 second**
 
 ```bash
-  $ docker restart -t 10 1662fbp18011593
+  docker restart -t 10 1662fbp18011593
 ```
 **Remove multiple containers**
 
 ```bash
-  $ docker rm 1662pcs18011593 161w80asdf351lsm
+  docker rm 1662pcs18011593 161w80asdf351lsm
 ```
 **Remove all containers**
 
 ```bash
-  $ docker rm $(docker ps -aq)
+  docker rm $(docker ps -aq)
 ```
 ### Container Naming & Identificatioon
 
 **Run a container with Name**
 
 ```bash
-  $ docker run --name my-container nginx
+  docker run --name my-container nginx
 ```
 **Running a container in the detached mode**
 ```bash
-  $ docker run -d –name <container_name>
+  docker run -d –name <container_name>
 ```
 This is used to start a new container in detached mode, which means the container runs in the background and does not block terminal.
 
 **Rename a container**
 
 ```bash
-  $ docker rename my-nginx new-nginx
+  docker rename my-nginx new-nginx
 ```
 ### Container Logs and Stats
 
 **Display the logs of a container**
 
 ```bash
-  $ docker logs <containerID>
+  docker logs <containerID>
 ```
 **Display a live stream of container resource usage statistics**
 
 ```bash
-  $ docker stats <containerID>
+  docker stats <containerID>
 ```
 **Check specific container log runtime**
 
 ```bash
-  $ docker exec 266 cat /var/log/nginx/access.log
+  docker exec 266 cat /var/log/nginx/access.log
 ```
 ### Why a Docker container exits?
 
@@ -442,14 +439,14 @@ Docker containers are like tasks—they start running when they have something t
 Run the container with an interactive shell that keeps running
 
 ```bash
-  $ docker run -it –name <container name> image_name
+  docker run -it –name <container name> image_name
 ```
 ### Container Interaction
 
 **Run an interactive shell inside a container**
 
 ```bash
-  $ docker container exec -it 1662pcs4589ddf /bin/bash
+  docker container exec -it 1662pcs4589ddf /bin/bash
 ```
 Opens a shell inside an existing container.
 
@@ -458,32 +455,320 @@ Opens a shell inside an existing container.
  Opens a shell inside an existing container
 
 ```bash
-  $ docker container run -it ubuntu 
+  docker container run -it ubuntu 
 ```
 Starts a new container with an interactive shell
 
 **Check container host name**
 ```bash
-  $ docker container exec b15948926sheb4 hostname
+  docker container exec b15948926sheb4 hostname
 ```
 **Copy from container to host**
 
 ```bash
-  $ docker cp <container_id_or_name>:<container_path> <host_path>
+  docker cp <container_id_or_name>:<container_path> <host_path>
 ```
 **Copy from host to container**
 
 ```bash
-  $ docker cp <host_path> <container_id_or_name>:<container_path>
+  docker cp <host_path> <container_id_or_name>:<container_path>
 ```
 **Remove all stopped containers**
 
 ```bash
-  $ docker container prune
+  docker container prune
 ```
+# CMD vs Entrypoint
+
+In Docker, both CMD and ENTRYPOINT are instructions used in a Dockerfile to specify the command that should be run when a container starts. They might seem similar, but there's a key difference in how they behave:
+
+### CMD:
+
+  - Defines the default arguments for the process specified by ENTRYPOINT (if ENTRYPOINT is set).
+  - **Can be overridden** by arguments provided during ```docker run```.
+  - Think of it as the **default settings** for the main program.
+  - If multiple CMD instructions are specified in a Dockerfile, only the last one takes effect.
+
+**Example :**
+```bash
+  FROM ubuntu
+  CMD ["echo", "Hello, World!"]
+```
+Here, we have passed as parameter Hello World for CMD that prints after container start. Here, we override the default value with **Hi!**
 
 ```bash
-  $ 
+  docker run ubuntu-test echo 'Hi'
+```
+### Entrypoint
+
+  - Sets the executable or command to be run when the container starts.
+  - **Cannot be overridden** by arguments provided during ```docker run```.
+  - It makes the container **behave like an executable**.
+  - Think of it as the core program the container always executes.
+  - If multiple ENTRYPOINT instructions are specified in a Dockerfile, only the last one takes effect
+
+**Example :**
+```bash
+  FROM ubuntu
+  RUN apt-get update
+  ENTRYPOINT ["echo", "Hello from Docker!!"]
+```
+It worked the same as CMD but when we have passed parameters will be see difference.
+```bash
+docker run -it ubuntu-test:latest 'Hello from AWS!!'
+```
+We have passed parameters but the executable hasn’t overridden and also added a new parameter with the old parameter.
+
+### Using CMD & Entrypoint together
+
+It's common practice to use both ENTRYPOINT and CMD together. ENTRYPOINT defines the main program, and CMD provides default arguments for it.
+
+**Example :**
+
+```bash
+  FROM ubuntu
+  RUN apt-get update
+  ENTRYPOINT ["echo", "Hi!!"]
+  CMD ["User"]
+```
+Build a new image from the modified Dockerfile and run a container. It will print **H!! User**
+
+Let's pass parameters to the docker run command.
+
+```bash
+  docker run -it ubuntu-test  Docker 
+```
+The output has now changed to ```Hi!! Docker```
+
+### When to use?
+ 
+  - **Use CMD** if you want the option to override the command when running the container.
+  - **Use ENTRYPOINT** if you want the command to always run and not be overridden.
+  - **Use both ENTRYPOINT (for the command) and CMD (for default arguments)** to set a fixed command with flexible default parameters.
+
+# Docker Ignore
+
+The ```.dockerignore``` file is used to specify files and directories that should be **excluded from the Docker build context**. This helps to reduce the size of the build context and avoid sending unnecessary files to the Docker daemon.
+
+### Why Use ```.dockerignore```?
+
+  - **Reduce Build Context Size :** Exclude files and directories that are not needed for the Docker image, making the build process faster.
+  - **Improve Security :** Prevent sensitive files (e.g., configuration files with secrets) from being included in the image.
+  - **Optimize Caching :** Excluding files that change frequently can help leverage Docker’s build cache more effectively.
+
+Create a ```.dockerignore``` File. Place a ```.dockerignore``` file in the root of your project directory (the same location as your Dockerfile).
+
+**Example ```.dockerignore``` File**
+
+```bash
+  # Ignore node_modules directory
+  node_modules
+
+  # Ignore logs
+  logs
+  *.log
+
+  # Ignore temporary files
+  tmp
+  *.tmp
+
+  # Ignore Git files
+  .git
+  .gitignore
+
+  # Ignore Dockerfile itself
+  Dockerfile
+
+  # Ignore environment variables file
+  .env
+```
+# Docker Volume
+
+Docker volumes are used to manage data persistence in Docker containers. They allow data to be stored outside the container's filesystem, ensuring that the data is not lost when the container is removed or recreated.
+
+### Why Use Docker Volumes?
+
+  - **Data Persistence :** Keep data even if the container is deleted.
+  - **Data Sharing :** Share data between multiple containers.
+  - **Decoupling Data and Container :** Separate data from the container's lifecycle.
+
+### Types of Docker Volumes
+  - **Named Volumes :** Managed by Docker, and Docker takes care of their location.
+  - **Anonymous Volumes :** Created when you use -v or --mount without specifying a volume name.
+  - **Host Volumes (Bind Mounts) :** Use a directory or file from the host filesystem.
+
+### Docker Volumes Command 
+
+**Create a named volume**
+
+```bash
+   docker volume create volume_name
+```
+**List all volumes**
+
+```bash
+   docker volume ls
+```
+**Inspect details of a volume**
+
+```bash
+   docker volume inspect volume_name
+```
+**Remove a volume**
+
+```bash
+  docker volume rm volume_name
+```
+**Run a container with a volume**
+
+```bash
+   docker --name -v run container_name volume_name:/path/in/container image_name:tag
+```
+**Copy files between a container and a volume**
+
+```bash
+   docker cp local_file_or_directory container_name:/path/in/container
+```
+### Create Nginx volume and run Nginx Pod with attached volume inside of Nginx Pod
+
+```bash
+   docker volume create my-volume
+```
+```bash
+   docker run -d -p 8080:80 --name nginx-server -v web-data:/usr/share/nginx/html nginx
+```
+![Project Logo](Images/Volume%20Diagram.png)
+
+```/usr/share/nginx/html``` is the default directory where nginx serves static files. By mounting a volume here, you can persist the website data and share it between different containers or with the host.
+
+### Bind Mount
+
+A bind mount in Docker is a method of **mounting a directory or file** from the **host filesystem into a container**.
+
+ This allows the container to access and use files from the host as if they were part of the container's filesystem. Bind mounts are useful for sharing data between the host and the container, as well as for scenarios where you need the container to interact with files on the host in real-time.
+
+**Run a container with a bind mount**
+
+```bash
+   docker run -d -p 8080:80 --name container-name -v /path/on/host:/usr/share/nginx/html nginx
+```
+```/path/on/host``` is the absolute path to the directory on the host.
+
+```/usr/share/nginx/html``` is the path in the container where the directory is mounted.
+
+Bind mounts provide a powerful and flexible way to share data between the host and Docker containers, making them ideal for development, testing, and situations where you need persistent and accessible storage.
+
+# Docker Namespace
+
+Docker namespaces are a fundamental feature that provides process-level isolation and resource management for containers. By leveraging namespaces, Docker ensures that containers are isolated from each other and from the host system, enabling efficient and secure deployment of applications in a variety of environments.
+
+  - **Purpose :** Namespaces create isolated environments for processes in Docker containers.
+
+  - **Isolation :** Each container has its own world for processes, networks, files, etc., so they don't interfere with each other.
+
+  - **Benefits :** Keeps things organized, secure, and efficient when running multiple containers on the same machine.
+
+  - **Bottom Line :** Docker namespaces ensure that containers play nicely together, without stepping on each other's toes.
+
+
+
+
+```bash
+   
+```
+****
+
+```bash
+  
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
 ```
 ****
 
@@ -493,7 +778,238 @@ Starts a new container with an interactive shell
 ****
 
 ```bash
-  $ 
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+  
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+  
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+  
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
 ```
 ****
 
@@ -503,7 +1019,238 @@ Starts a new container with an interactive shell
 ****
 
 ```bash
-  $ 
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+  
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+  
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+  
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
 ```
 ****
 
@@ -513,15 +1260,479 @@ Starts a new container with an interactive shell
 ****
 
 ```bash
-  $ 
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+  
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+  
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+  
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
 ```
 ****
 
 ```bash
   $ 
 ```
+****
+
 ```bash
-  $ 
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+  
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+  
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+  
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
+```
+```bash
+   
+```
+****
+
+```bash
+   
+```
+****
+
+```bash
+   
 ```
 ****
 
@@ -531,222 +1742,97 @@ Starts a new container with an interactive shell
 ****
 
 ```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
+   
+```
+```bash
+   
 ```
 ****
 
 ```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
-```
-```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
+   
+```
+```bash
+   
 ```
 ****
 
 ```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
-```
-```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
+   
 ```
 ****
 
 ```bash
-  $ 
+   
 ```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-****
-
-```bash
-  $ 
-```
-v
 
