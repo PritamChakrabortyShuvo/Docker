@@ -35,6 +35,7 @@ Welcome to **Docker Fundamentals and Advanced Techniques.** This guide is design
     4. [MacVlan Driver](#macvlan-driver)
     5. [Null Driver](#null-driver)
     6. [Overlay Driver](#overlay-driver)
+13. [Docker Compose](#docker-compose)
 12. [Conclusion](#conclusion)
 
 # Introduction
@@ -708,7 +709,7 @@ Docker networking allows containers to communicate with each other and the outsi
 # Docker Network Drivers
 Docker comes with six built-in network drivers that provide core networking functionality. These drivers enable Docker containers to communicate with each other and with external networks.
 
-### 1. Bridge Driver
+### Bridge Driver
   The **default network driver** that creates a private internal network on the host, allowing containers to communicate with each other and the external network via NAT
 ```bash
   docker network create --driver=bridge network_name
@@ -723,7 +724,7 @@ This command retrieve the IP address of created container
 
 **172.18.0.0/16 is the default subnet used by Docker's bridge network.** This means that by default, when you run a Docker container without specifying a custom network, it gets assigned an IP address from this subnet (typically in the range of 172.18.0.2 to 172.18.255.254), but you can customize network configurations.
 
-### 2. Host Driver
+### Host Driver
 The **host network driver** in Docker provides a way to run containers that share the networking namespace of the Docker host machine. 
   - Containers use the host's network directly.
   - No network isolation between containers.
@@ -747,7 +748,7 @@ The **ipvlan driver** creates Docker containers that share Layer 2 (Ethernet) ne
 
 We can customize the subnet and gateway value.
 
-### 4. MacVlan Driver
+### MacVlan Driver
 Creates sub-interfaces with unique MAC and IP addresses. Containers appear as individual devices on the network.
 
 ```bash
@@ -758,13 +759,13 @@ Creates sub-interfaces with unique MAC and IP addresses. Containers appear as in
 ```bash
    docker run --network=network_name -d --name=container_name image_name
 ```
-### 5. Null Driver
+### Null Driver
 Provides an isolated environment where containers can't communicate.Useful for scenarios requiring complete network isolation.
 
 ```bash
    docker run --network=none -d --name=container_name image_name
 ```
-### 6. Overlay Driver
+### Overlay Driver
 Enables multi-host networking in Docker Swarm. Uses overlay networks for communication across different hosts.
 
 ```bash
