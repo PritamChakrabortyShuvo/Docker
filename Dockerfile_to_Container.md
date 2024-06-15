@@ -60,13 +60,13 @@ Before pushing your image, you need to log in to Docker Hub. You can do this usi
 ```
 **Breakdown :**
 
-```docker push```: This is the command used to push an image or a repository to a Docker registry.
+**```docker push```**: This is the command used to push an image or a repository to a Docker registry.
 
-```your-dockerhub-username```: This is a placeholder for your actual Docker Hub username.
+**```your-dockerhub-username```**: This is a placeholder for your actual Docker Hub username.
 
-```image_name```: This is the name of your Docker image.
+**```image_name```**: This is the name of your Docker image.
 
-```:version```: This is the tag for the specific version of your image. Tags are often used to differentiate between different versions of the same image.
+**```:version```**: This is the tag for the specific version of your image. Tags are often used to differentiate between different versions of the same image.
 
 ## Step 4 : Run the Container
 
@@ -75,13 +75,13 @@ Before pushing your image, you need to log in to Docker Hub. You can do this usi
 ```
 **Breakdown :**
 
-```docker run -d```: Command to run the container in detached mode.
+**```docker run -d```**: Command to run the container in detached mode.
 
-```-p 4000:80```: Maps port 4000 on the host to port 80 in the container.
+**```-p 4000:80```**: Maps port 4000 on the host to port 80 in the container.
 
-```--name container_name```: This flag assigns a name to the running container, making it easier to manage.
+**```--name container_name```**: This flag assigns a name to the running container, making it easier to manage.
 
-```your-dockerhub-username/image_name:version```: This specifies the Docker image to use for creating the container. It includes the Docker Hub username, the image name, and the specific version tag.
+**```your-dockerhub-username/image_name:version```**: This specifies the Docker image to use for creating the container. It includes the Docker Hub username, the image name, and the specific version tag.
 
 ## Step 5 : Verify the Container is Running
 
