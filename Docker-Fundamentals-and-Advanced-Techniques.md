@@ -16,7 +16,7 @@ Welcome to **Docker Fundamentals and Advanced Techniques.** This guide is design
 5. [Docker Image Commands](#docker-image-commands)
 6. [Docker Container](#docker-container)
     1. [Docker Command Reference](#docker-command-reference)
-    2. [Lifecycle of Docker Conatainer](#lifecycle-of-docker-container)
+    2. [Lifecycle of Docker Container](#lifecycle-of-docker-container)
     3. [Container Naming & Identification](#container-naming-&-identification)
     4. [Container Logs & Stats](#container-logs-and-stats)
     5. [Why a Docker Container exits?](#why-a-docker-container-exits)
@@ -45,16 +45,14 @@ Welcome to **Docker Fundamentals and Advanced Techniques.** This guide is design
     4. [What is ```docker-compose.yml``` file?](#what-is-docker-composeyml-file)
     5. [Docker Compose Commands](#docker-compose-commands)
     6. [Why yaml file support json file also?](#why-yaml-file-support-json-file-also)
-    7. [](#)
-12. [Conclusion](#conclusion)
+
 
 # Introduction
 
 ## What is **Docker?**
 
 Docker is a tool that allows you to create, deploy, and run applications by using containers. 
-Using docker you can run your software on different systems and environments like a development environment, a production environment. And, the software will run consistently, regardless of 
-what kind of environment it's on.
+Using docker you can run your software on different **systems and environments** like a development environment, a production environment. And, the software will run consistently, regardless of what kind of environment it's on.
 
 Docker lets you package and run applications in isolated environments called containers. This isolation allows you to run multiple containers at the same time on a single host. Containers are lightweight and include everything needed to run the application, so they don't depend on the host's setup. You can share containers with others, ensuring they work the same way for everyone.
 
@@ -85,13 +83,13 @@ Docker helps developers build and share applications smoothly. It keeps everythi
   - It's responsible for managing Docker containers.
 
 **Docker image**
-  - A Docker image is like a snapshot of your application. It contains all the files and dependencies needed to run your application. Think of it as a packaged-up version of your software that can be easily transported and run on any machine that has Docker installed. Images are built from a Dockerfile, which contains instructions on how to assemble the image.
+  - A Docker image is like a **snapshot of your application**. It contains all the **files and dependencies needed to run your application**. Think of it as a packaged-up version of your software that can be easily transported and run on any machine that has Docker installed. Images are built from a Dockerfile, which contains instructions on how to assemble the image.
 
 **Docker container**
-  - A Docker container is like a running instance of your application. It's created from a Docker image and contains everything needed to run your application, including the code, runtime, libraries, and dependencies. Containers are isolated environments, which means they run independently of the host system and other containers. They're lightweight, portable, and can be easily moved between different environments.
+  - A Docker container is like a running instance of your application. **It's created from a Docker image and contains everything needed to run your application, including the code, runtime, libraries, and dependencies.** Containers are isolated environments, which means they run independently of the host system and other containers. They're lightweight, portable, and can be easily moved between different environments.
 
 **Docker Registries**
-  - A Docker registry stores Docker images. Docker Hub is a public registry that anyone can use, and Docker looks for images on Docker Hub by default. You can even run your own private registry.
+  - A Docker registry stores Docker images. **Docker Hub** is a public registry that anyone can use, and **Docker looks for images on Docker Hub by default**. You can even run your own private registry.
   - When you use the docker pull or docker run commands, Docker pulls the required images from your configured registry. When you use the docker push command, Docker pushes your image to your configured registry.
 
 # Docker Installation
@@ -100,27 +98,22 @@ Simplified installation steps for Docker on Ubuntu and Windows -
 ### Docker for Ubuntu
 
 **1. Update package repository**
-
 ```bash
   sudo apt update
 ```
 **2. Install dependencies**
-
 ```bash
   sudo apt install apt-transport-https ca-certificates curl software-properties-common
 ```
 **3. Add docker GPG key**
-
 ```bash
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 ```
 **4. Add docker repository**
-
 ```bash
   sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 ```
 **5. Install docker engine**
-
 ```bash
   sudo apt update
 ```
@@ -128,7 +121,6 @@ Simplified installation steps for Docker on Ubuntu and Windows -
   sudo apt install docker-ce
 ```
 **6. Verify Docker Installation**
-
 ```bash
   sudo docker --version
 ```
@@ -155,7 +147,7 @@ Simplified installation steps for Docker on Ubuntu and Windows -
 # Docker File
 ### What is Docker File?
 
-This is a text document that acts as a blueprint or recipe for creating a Docker image. It contains a series of instructions that tell Docker what to include in the image, such as the operating system, libraries, and your application code. 
+This is a **text document that acts as a blueprint or recipe for creating a Docker image**. It contains a **series of instructions** that tell Docker what to include in the image, such as the operating system, libraries, and your application code. 
 
 ```bash
       # Base image
@@ -190,25 +182,25 @@ This is a text document that acts as a blueprint or recipe for creating a Docker
 ```
 Frequently used Dockerfile Instructions:
 
-**FROM** : Sets base/parent Image.
+**```FROM```** : Sets base/parent Image.
 
-**LABEL** : Adds metadata to the image.
+**```LABEL```** : Adds metadata to the image.
 
-**RUN** : Creates new layer.
+**```RUN```** : Creates new layer.
 
-**EXPOSE** : Intend port to publish.
+**```EXPOSE```** : Intend port to publish.
 
-**WORKDIR** : Sets current working directory.
+**```WORKDIR```** : Sets current working directory.
 
-**COPY** : Copy file from one location to container. If spaces include quotes.
+**```COPY```** : Copy file from one location to container. If spaces include quotes.
 
-**ENV** : Set environment variables. Can be overridden by --env flag.
+**```ENV```** : Set environment variables. Can be overridden by --env flag.
 
-**HEALTHCHECK** : Checks the health of a container by running a command inside the container.Can be only one Healthcheck instruction in a Dockerfile.
+**```HEALTHCHECK```** : Checks the health of a container by running a command inside the container.Can be only one Healthcheck instruction in a Dockerfile.
 
-**CMD** : Setting default command for container. It can be overridden.
+**```CMD```** : Setting default command for container. It can be overridden.
 
-**ENTRYPOINT** : Specify executable inside the container. It does not get overridden. 
+**```ENTRYPOINT```** : Specify executable inside the container. It does not get overridden. 
 
 However, it can be overridden by --entrypoint flag.
 
@@ -216,60 +208,50 @@ However, it can be overridden by --entrypoint flag.
 
 ### What is Docker Image?
 
-This is the end product created from the Dockerfile. It's a read-only template that encapsulates everything your application needs to run, including the operating system, libraries, and your application code. Images are portable and can be shared and stored in repositories like Docker Hub.
+This is the end product created from the Dockerfile. It's a **read-only template** that encapsulates everything your application needs to run, including the operating system, libraries, and your application code. **Images are portable and can be shared and stored in repositories like Docker Hub.**
 
 ![Project Logo](Images/Dockerfile%20to%20DockerContainer.png)
 
 # Docker Image Commands
 
 **Build and run docker image**
-
 ```bash
   docker -t build <image_name> path_to_dockerfile
 ```
-
 ```bash
   docker build -t <image_name> .
 ```
-The **.** at the end specifies the context (current directory) where the Dockerfile is located.
+The **```.```** at the end specifies the context (current directory) where the Dockerfile is located.
 
 ### What is Docker tag?
-A Docker tag is a label that we apply to a Docker image to identify its version or variant. Tags make it easier to manage and differentiate between different versions of an image.
+A Docker tag is a **label that we apply to a Docker image to identify its version or variant**. Tags make it easier to manage and differentiate between different versions of an image.
 
 Tags help us to keep track of different versions of our images, enabling us to specify which version we want to run or deploy.
 
 **List of all image**
-
 ```bash
   docker image ls
 ```
 **Pull an image from a registry**
-
 ```bash
   docker pull <image_name:tag>
 ```
 **Show detailed information about an image**
-
 ```bash
   docker image inspect nginx
 ```
 **Remove a local image**
-
 ```bash
   docker rmi <image_name>:tag
 ```
 **Tag an image**
-
 ```bash
   docker tag source_image:tag new:image:tag
 ```
 **Push an image to Docker Hub**
-
 ```bash
   docker push image_name:tag
 ```
-
-
 # Docker Container
 
 These section should help you manage Docker on your system efficiently.
@@ -277,12 +259,10 @@ These section should help you manage Docker on your system efficiently.
 ### Docker Command Reference
 
 **Check Installed Docker Version**
-
 ```bash
   sudo docker version
 ```
 **Display System-wide Information**
-
 ```bash
   sudo docker info
 ```
@@ -292,22 +272,18 @@ These section should help you manage Docker on your system efficiently.
   sudo systemctl status docker
 ```
 **List Currently Running Docker Containers**
-
 ```bash
   sudo docker ps
 ```
 **List All Docker Containers (including stopped ones)**
-
 ```bash
   sudo docker ps -a
 ```
 **List Available Docker Images**
-
 ```bash
   sudo docker images
 ```
 **Correct Command to List Running Containers**
-
 ```bash
   docker container list
 ```
@@ -319,105 +295,84 @@ The lifecycle of a Docker container involves several stages, including creation,
 ![Project Logo](Images/Lifecycle.png)
 
 **Creates a new container but does not start it**
-
 ```bash
   docker create --name my-container nginx
 ```
 Creates a new container named "my-container" using the Nginx image but does not start it.
 
 **Docker start**
-
 ```bash
   docker start my-container
 ```
 Starts the container named "my-container" that was previously created but stopped.
 
 **Docker run**
-
 ```bash
   docker run --name my-container nginx
 ```
 This command combines the process of creating and starting a container named "my-container" using the Nginx image in a single step.
 
 **Docker pause/unpause**
-
 ```bash
   docker pause my-container
 ```
 ```bash
   docker ps --filter "name=my-container"
 ```
-
 ```bash
   docker unpause my-container
 ```
 **Docker stop**
-
 ```bash
   docker stop my-container
 ```
-
 **Docker remove**
-
 ```bash
   docker rm my-container
 ```
-
 **Run a container from an image**
-
 ```bash
   docker run nginx
 ```
-
 **Run a command inside a running container**
-
 ```bash
   docker exec my-nginx ls /usr/share/nginx/html
 ```
 **Display detailed information about a container**
-
 ```bash
   docker inspect my-container
 ```
 **Stop a running container via name**
-
 ```bash
   docker stop my-container
 ```
 **Stop all running container**
-
 ```bash
   docker container stop $(docker container ps -q)
 ```
-**Start a stopped container vi ID.**
-
+**Start a stopped container vi ID**
 ```bash
   docker start 1662fbp18011593
 ```
 **Restart a container**
-
 ```bash
   docker restart 1662fbp18011593
 ```
 **Restart after 10 second**
-
 ```bash
   docker restart -t 10 1662fbp18011593
 ```
 **Remove multiple containers**
-
 ```bash
   docker rm 1662pcs18011593 161w80asdf351lsm
 ```
 **Remove all containers**
-
 ```bash
   docker rm $(docker ps -aq)
 ```
 ### Container Naming & Identificatioon
 
 **Run a container with Name**
-
 ```bash
   docker run --name my-container nginx
 ```
@@ -428,24 +383,20 @@ This command combines the process of creating and starting a container named "my
 This is used to start a new container in detached mode, which means the container runs in the background and does not block terminal.
 
 **Rename a container**
-
 ```bash
   docker rename my-nginx new-nginx
 ```
 ### Container Logs and Stats
 
 **Display the logs of a container**
-
 ```bash
   docker logs <containerID>
 ```
 **Display a live stream of container resource usage statistics**
-
 ```bash
   docker stats <containerID>
 ```
 **Check specific container log runtime**
-
 ```bash
   docker exec 266 cat /var/log/nginx/access.log
 ```
@@ -453,13 +404,13 @@ This is used to start a new container in detached mode, which means the containe
 ```bash
   docker container prune
 ```
-You will be prompted to confirm the action. To skip the confirmation prompt, use the ```-f``` or ```--force``` flag
+You will be prompted to confirm the action. To skip the confirmation prompt, use the **-f** or **--force** flag
 ```bash
   docker container prune -f
 ```
 ### Why a Docker container exits?
 
-Docker containers are like tasks—they start running when they have something to do and stop when they're done. They're designed to run a specific job or process, and once that job is finished, the container stops. So, containers run only as long as the task inside them is running.
+Docker containers are like tasks—they start running when they have something to do and stop when they're done. **They're designed to run a specific job or process, and once that job is finished, the container stops**. So, containers run only as long as the task inside them is running.
 
 ### How to Keep the Container Running?
 
@@ -491,23 +442,20 @@ Starts a new container with an interactive shell
   docker container exec b15948926sheb4 hostname
 ```
 **Copy from container to host**
-
 ```bash
   docker cp <container_id_or_name>:<container_path> <host_path>
 ```
 **Copy from host to container**
-
 ```bash
   docker cp <host_path> <container_id_or_name>:<container_path>
 ```
 **Remove all stopped containers**
-
 ```bash
   docker container prune
 ```
 # CMD vs Entrypoint
 
-In Docker, both CMD and ENTRYPOINT are instructions used in a Dockerfile to specify the command that should be run when a container starts. They might seem similar, but there's a key difference in how they behave:
+In Docker, both **CMD and ENTRYPOINT are instructions used in a Dockerfile to specify the command that should be run when a container starts**. They might seem similar, but there's a key difference in how they behave:
 
 ### CMD:
 
@@ -611,7 +559,7 @@ Create a ```.dockerignore``` File. Place a ```.dockerignore``` file in the root 
 ```
 # Docker Volume
 
-Docker volumes are used to manage data persistence in Docker containers. They allow data to be stored outside the container's filesystem, ensuring that the data is not lost when the container is removed or recreated.
+Docker volumes are used to **manage data persistence in Docker containers**. They allow data to be **stored outside the container's filesystem**, ensuring that the **data is not lost when the container is removed or recreated**.
 
 ### Why Use Docker Volumes?
 
@@ -627,37 +575,30 @@ Docker volumes are used to manage data persistence in Docker containers. They al
 ### Docker Volumes Command 
 
 **Create a named volume**
-
 ```bash
    docker volume create volume_name
 ```
 **List all volumes**
-
 ```bash
    docker volume ls
 ```
 **Inspect details of a volume**
-
 ```bash
    docker volume inspect volume_name
 ```
 **Remove a volume**
-
 ```bash
   docker volume rm volume_name
 ```
 **Remove all unused Docker volumes**
-
 ```bash
   docker volume prune
 ```
 **Run a container with a volume**
-
 ```bash
    docker --name -v run container_name volume_name:/path/in/container image_name:tag
 ```
 **Copy files between a container and a volume**
-
 ```bash
    docker cp local_file_or_directory container_name:/path/in/container
 ```
@@ -677,10 +618,9 @@ Docker volumes are used to manage data persistence in Docker containers. They al
 
 A bind mount in Docker is a method of **mounting a directory or file** from the **host filesystem into a container**.
 
- This allows the container to access and use files from the host as if they were part of the container's filesystem. Bind mounts are useful for sharing data between the host and the container, as well as for scenarios where you need the container to interact with files on the host in real-time.
+ This **allows the container to access and use files from the host** as if they were part of the container's filesystem. Bind mounts are useful for **sharing data between the host and the container**, as well as for scenarios where you need the container to interact with files on the host in real-time.
 
 **Run a container with a bind mount**
-
 ```bash
    docker run -d -p 8080:80 --name container-name -v /path/on/host:/usr/share/nginx/html nginx
 ```
@@ -688,7 +628,7 @@ A bind mount in Docker is a method of **mounting a directory or file** from the 
 
 ```/usr/share/nginx/html``` is the path in the container where the directory is mounted.
 
-Bind mounts provide a powerful and flexible way to share data between the host and Docker containers, making them ideal for development, testing, and situations where you need persistent and accessible storage.
+Bind mounts provide a powerful and flexible way to **share data between the host and Docker containers**, making them ideal for development, testing, and situations where you need persistent and accessible storage.
 
 # Docker Namespace
 
@@ -704,7 +644,7 @@ Docker namespaces are a fundamental feature that provides process-level isolatio
 
 # Docker Networking
 
-Docker networking allows containers to communicate with each other and the outside world. It acts like a virtual network within the host system, allowing containers to connect and interact with each other, as well as potentially reach external services.
+**Docker networking allows containers to communicate with each other and the outside world**. It acts like a virtual network within the host system, allowing containers to connect and interact with each other, as well as potentially reach external services.
 
 ### Docker Networking Command
 
@@ -798,7 +738,7 @@ Enables multi-host networking in Docker Swarm. Uses overlay networks for communi
    docker service create --network=network_name service_name
 ```
 # Docker Compose
-Docker Compose is a tool provided by Docker that allows you to define and **manage multi-container Docker applications**. It uses a **YAML fil**e** to configure the application's services, networks, and volumes, making it easier to orchestrate the containers that make up your application stack.
+Docker Compose is a tool provided by Docker that allows you to define and **manage multi-container Docker applications**. It uses a **YAML fil** to configure the application's services, networks, and volumes, making it easier to orchestrate the containers that make up your application stack.
 
 ![Project Logo](Images/Docker%20Compose.png)
 
@@ -816,7 +756,7 @@ Docker Compose is a tool provided by Docker that allows you to define and **mana
 
 **Environment Variables and Secrets :** Docker Compose allows you to specify environment variables either directly in the YAML file or in separate .env files. This makes it easy to manage configurations across different environments (development, testing, production).
 
-### Benifits Docker Compose
+### Benifits of Docker Compose
 
 **Simplified application development :** Instead of managing individual containers, you define and run your entire application with a single command. This makes development, testing, and deployment significantly easier.
 
@@ -835,6 +775,7 @@ Docker Compose is a tool provided by Docker that allows you to define and **mana
    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 ```
 - **Step 3 :** Set Execution Permissions
+
   - After downloading, set the appropriate permissions to make the binary executable.
 
 ```bash
@@ -848,7 +789,7 @@ Docker Compose is installed.
 
 ### What is ```docker-compose.yml``` file?
 
-Docker Compose YAML file ```(docker-compose.yml)``` is a configuration file used by Docker Compose to define and ***manage multi-container Docker applications***. It allows you to describe the services, networks, and volumes that make up your application in a declarative manner, using YAML syntax.
+Docker Compose YAML file ```(docker-compose.yml)``` is a configuration file used by Docker Compose to define and ***manage multi-container Docker applications***. It allows you to **describe the services, networks, and volumes that make up your application in a declarative manner, using YAML syntax**.
 
 This file enables you to run a multi-container application with a single command, simplifying the orchestration and management of complex applications.
 
@@ -886,8 +827,7 @@ This file enables you to run a multi-container application with a single command
 **Breakdown :**
 
 - **```version:'3.8'```** : Uses version 3.8 of the Docker Compose file format.
-
-- **```services```** : Defines two services, ```web``` and ```db```
+- **```services```** : Defines two services, ```web``` & ```db```
   - **```web```**: Runs an NGINX web server
     - **```image```** : Uses the latest NGINX Docker image.
     - **```ports```** : Maps port 8080 on the host to port 80 in the container.
@@ -924,28 +864,24 @@ This command stops & removes the containers, networks, and volumes defined in th
 This command builds or rebuilds the Docker images for the services defined in the **```docker-compose.yml```** file.
 
 **List containers for a specific Docker Compose project**
-
 ```bash
    docker-compose ps
 ```
 This command lists the containers for the services defined in the **```docker-compose.yml```** file.
 
 **View logs for services**
-
 ```bash
    docker-compose logs
 ```
 This command shows the logs for all services defined in the **```docker-compose.yml```** file.
 
 **Scale services to a specific number of containers**
-
 ```bash
    docker up -d --scale compose service_name=number_of_containers
 ```
 Runs multiple containers of a service.
 
 **Run a one-time command in a service**
-
 ```bash
    docker-compose run service_name compose command
 ```
@@ -954,14 +890,12 @@ Example :
   docker run web npm compose install
 ```
 **View details of a service**
-
 ```bash
    docker-compose ps service_name
 ```
 Provides detailed information about a specific service.
 
 **Start Docker Compose with Custom Configuration**
-
 ```bash
    docker-compose -f docker-compose2.yml up -d
 ```
@@ -1005,13 +939,13 @@ Consider the following JSON data
 
 ```bash
   {
-    "name": "John Doe",
-    "age": 30,
-    "city": "New York",
-    "skills": ["JavaScript", "Python", "Docker"],
+    "name": "Pritam",
+    "age": 25,
+    "city": "Chattogram",
+    "skills": ["Docker", "AWS","Linux"],
     "contact": 
       {
-      "email": "john.doe@example.com",
+      "email": "pritamchakrabortyshuvo@gmail.com",
       "phone": "123-456-7890"
       }
   }
@@ -1019,15 +953,15 @@ Consider the following JSON data
 You can represent the same data in YAML format like this:
 
 ```bash
-  name: John Doe
-  age: 30
-  city: New York
+  name: Pritam
+  age: 25
+  city: Chattogram
   skills:
-    - JavaScript
-    - Python
     - Docker
+    - AWS
+    - Linux
   contact:
-  email: john.doe@example.com
+  email: pritamchakrabortyshuvo@gmail.com
   phone: 123-456-7890
 ```
 YAML is often more readable and easier to write compared to JSON, especially for complex data structures
@@ -1036,7 +970,7 @@ But it also support json file too.
 
 **Example :**
 ```bash
-   docker compose -f docker-compose.jspn up -d
+   docker compose -f docker-compose.json up -d
 ```
 ```bash
    
