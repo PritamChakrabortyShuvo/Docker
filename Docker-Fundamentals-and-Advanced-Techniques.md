@@ -43,8 +43,9 @@ Welcome to **Docker Fundamentals and Advanced Techniques.** This guide is design
     2. [Benifits of Docker Compose](#benifits-of-docker-compose)
     3. [Docker Compose Installation](#docker-compose-installation)
     4. [What is ```docker-compose.yml``` file?](#what-is-docker-composeyml-file)
-    5. [Docker Compose Commands](#docker-compose-commands)
-    6. [Why yaml file support json file also?](#why-yaml-file-support-json-file-also)
+    5. [Why yaml file support json file also?](#why-yaml-file-support-json-file-also)
+    6. [Docker Compose Commands](#docker-compose-commands)
+    
 
 
 # Introduction
